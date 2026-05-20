@@ -24,18 +24,18 @@ public partial class AdminService
 
     public Book? GetReportOfBookHistory(int id)
     {
-        var bookList = bookRepository.GetAllBooksReport(id);
+        var bookList = bookRepository.GetBooksReport(id);
         return bookList;
     }
     public List<Payment> GetReportOfPaymentHistory()
     {
-        var payments = paymentRepository.GetAllPayments();
+        var payments = paymentRepository.GetAll();
         return payments;
     }
 
     public List<DamagedBook> GetReportOfDamagedBook()
     {
-        var damagedBooks = damagedBookRepository.GetAllDamagedBook();
+        var damagedBooks = damagedBookRepository.GetAll();
         return damagedBooks;
     }
 

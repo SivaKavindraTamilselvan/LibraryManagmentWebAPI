@@ -1,4 +1,4 @@
-using LibraryManagement.ModelLibrary.Models;
+using LibraryManagement.Models;
 
 namespace LibraryManagement.BuisnessLayerLibrary.Services;
 

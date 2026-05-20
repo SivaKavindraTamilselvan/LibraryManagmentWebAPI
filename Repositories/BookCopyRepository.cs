@@ -1,3 +1,5 @@
+using LibraryManagement.DataAccessLibrary.DBContext;
+using LibraryManagement.Interfaces;
 using LibraryManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,8 +8,12 @@ namespace LibraryManagement.Repositories;
 // book copy repo for getting the details based on the filters
 // usage of linq
 
-public class BookCopyRepository : AbstractRepository<int, BookCopy>
+public class BookCopyRepository : AbstractRepository<int, BookCopy>,IBookCopyRepository
 {
+    public BookCopyRepository(LibraryManagementContext _libraryManagementContext) : base(_libraryManagementContext)
+    {
+        
+    }
     public override BookCopy? Get(int key)
     {
         var book = libraryManagementContext.BookCopy.Include(bs=>bs.BookISBN).ThenInclude(b=>b!.Book).Include(bs=>bs.BookStatus).Where(b=>b.BookCopyId == key).FirstOrDefault();

@@ -6,9 +6,9 @@ public class GenerateUnique
 {
     // used to generate the unique numbers
     protected readonly LibraryManagementContext libraryManagementContext;
-    public GenerateUnique()
+    public GenerateUnique(LibraryManagementContext _libraryManagement)
     {
-        libraryManagementContext = new LibraryManagementContext();
+        libraryManagementContext = _libraryManagement;
     }
     public string GenerateISBN()
     {

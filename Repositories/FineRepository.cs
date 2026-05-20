@@ -1,3 +1,5 @@
+using LibraryManagement.DataAccessLibrary.DBContext;
+using LibraryManagement.Interfaces;
 using LibraryManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,8 +8,12 @@ namespace LibraryManagement.Repositories;
 // fine repo for getting the details based on the filters
 // usage of linq
 
-public class FineRepository : AbstractRepository<int, Fine>
+public class FineRepository : AbstractRepository<int, Fine>,IFineRepository
 {
+    public FineRepository(LibraryManagementContext libraryManagementContext) : base(libraryManagementContext)
+    {
+        
+    }
     public override Fine? Get(int key)
     {
         var fine = libraryManagementContext.Fine.Where(b => b.FineId == key).FirstOrDefault();

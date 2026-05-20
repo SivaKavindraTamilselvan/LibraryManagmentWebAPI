@@ -1,4 +1,5 @@
 using LibraryManagement.DataAccessLibrary.DBContext;
+using LibraryManagement.Interfaces;
 using LibraryManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -8,18 +9,21 @@ namespace LibraryManagement.Repositories;
 // member repo for getting the details based on the filters
 // usage of procedure and linq
 
-public class PaymentRepository : AbstractRepository<int, Payment>
+public class PaymentRepository : AbstractRepository<int, Payment>,IPaymentRepository
 {
+    public PaymentRepository(LibraryManagementContext libraryManagementContext) : base(libraryManagementContext)
+    {
+        
+    }
     public override Payment? Get(int key)
     {
         var payment = libraryManagementContext.Payment.Include(mp => mp.ModeOfPayment).Where(b => b.PaymentId == key).FirstOrDefault();
         return null;
     }
 
-    public Payment? CreatePayment(Payment payment)
+    public override Payment? Create(Payment payment)
     {
-        using var context = new LibraryManagementContext();
-        using var transaction = context.Database.BeginTransaction();
+        using var transaction = libraryManagementContext.Database.BeginTransaction();
         try
         {
             libraryManagementContext.Database.ExecuteSqlInterpolated($"CALL pay_fine({payment.FineId},{payment.AmountPaid},{payment.ModeOfPaymentId})");

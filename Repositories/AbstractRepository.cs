@@ -5,17 +5,17 @@ namespace LibraryManagement.Repositories;
 
 // usage of linq
 
-public abstract class AbstractRepository<K, T> : IRepository<K, T> where T : class where K : notnull
+public abstract class AbstractRepository<K, T> : IRepository<K, T> where T : class
 {
     protected readonly LibraryManagementContext libraryManagementContext;
-    public AbstractRepository()
+    public AbstractRepository(LibraryManagementContext _libraryManagement)
     {
-        libraryManagementContext = new LibraryManagementContext();
+        libraryManagementContext = _libraryManagement;
     }
     public abstract T? Get(K key);
 
     // Get the details of the tables by id
-    public T Create(T item)
+    public virtual T? Create(T item)
     {
 
         libraryManagementContext.Add(item);
@@ -24,7 +24,7 @@ public abstract class AbstractRepository<K, T> : IRepository<K, T> where T : cla
     }
 
     // get all details of a table
-    public List<T> GetAll()
+    public virtual List<T> GetAll()
     {
         return libraryManagementContext.Set<T>().ToList();
     }

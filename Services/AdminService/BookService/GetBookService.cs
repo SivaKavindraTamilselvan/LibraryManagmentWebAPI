@@ -9,7 +9,7 @@ public partial class AdminService
 {
     public List<Book> GetAllBooks()
     {
-        var bookList = bookRepository.GetAllBooks();
+        var bookList = bookRepository.GetAll();
         return bookList;
     }
     public Book? GetBookByBookId(int id)

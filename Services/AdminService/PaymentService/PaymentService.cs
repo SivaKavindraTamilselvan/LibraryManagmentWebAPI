@@ -17,7 +17,7 @@ public partial class AdminService
         payment.FineId = fineId;
         payment.AmountPaid = amountPaid;
         payment.ModeOfPaymentId = paymentId;
-        var createdPayment = paymentRepository.CreatePayment(payment);
+        var createdPayment = paymentRepository.Create(payment);
         if(createdPayment == null)
         {
             return null;

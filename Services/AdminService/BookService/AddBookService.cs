@@ -69,7 +69,7 @@ public partial class AdminService
         {
             Console.WriteLine("Enter The Valid Edition Number");
         }
-        var bookList = bookRepository.GetAllBooks();
+        var bookList = bookRepository.GetAll();
         if (bookList.Count == 0)
         {
             throw new InvalidBookException("No Book Is Found In The Basic Book. Added That Initally");

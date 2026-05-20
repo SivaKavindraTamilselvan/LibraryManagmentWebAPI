@@ -1,9 +1,9 @@
 using LibraryManagement.BuisnessLayerLibrary.Inputs;
-using LibraryManagement.DataAccessLibrary.Object;
 using LibraryManagement.UniqueNumbers;
 using LibraryManagement.Exceptions;
 using LibraryManagement.Models;
 using LibraryManagement.Repositories;
+using LibraryManagement.Interfaces;
 
 namespace LibraryManagement.BuisnessLayerLibrary.Services;
 
@@ -11,30 +11,42 @@ namespace LibraryManagement.BuisnessLayerLibrary.Services;
 // to avoid duplicate object creation
 public partial class AdminService
 {
-    protected readonly MemberRepository memberRepository;
-    protected readonly BookRepository bookRepository;
-    protected readonly BookISBNRepository bookISBNRepository;
-    protected readonly BookCategoryRepository bookCategoryRepository;
-    protected readonly BookCopyRepository bookCopyRepository;
-    protected readonly BorrowingRepository borrowingRepository;
+    protected readonly IMemberRepository memberRepository;
+    protected readonly IBookRepository bookRepository;
+    protected readonly IBookISBNRepository bookISBNRepository;
+    protected readonly IBookCategoryRepository bookCategoryRepository;
+    protected readonly IBookCopyRepository bookCopyRepository;
+    protected readonly IBorrowingRepository borrowingRepository;
+    protected readonly IDamagedRepository damagedBookRepository;
+    protected readonly IFineRepository fineRepository;
+    protected readonly IPaymentRepository paymentRepository;
+
     protected readonly GenerateUnique generateUnique;
-    protected readonly DamagedBookRepository damagedBookRepository;
-    protected readonly FineRepository fineRepository;
-    protected readonly PaymentRepository paymentRepository;
+    protected readonly InputsCheck inputsCheck;
 
-
-    public AdminService(RepositoryManagment repositoryManagment)
+    public AdminService(
+    IMemberRepository memberRepository,
+    IBookRepository bookRepository,
+    IBookCategoryRepository bookCategoryRepository,
+    IBookISBNRepository bookISBNRepository,
+    IBookCopyRepository bookCopyRepository,
+    IBorrowingRepository borrowingRepository,
+    IDamagedRepository damagedBookRepository,
+    IFineRepository fineRepository,
+    IPaymentRepository paymentRepository,
+    GenerateUnique generateUnique)
     {
-        memberRepository = repositoryManagment.memberRepository;
-        bookRepository = repositoryManagment.bookRepository;
-        bookCategoryRepository = repositoryManagment.bookCategoryRepository;
-        bookISBNRepository = repositoryManagment.bookISBNRepository;
-        bookCopyRepository = repositoryManagment.bookCopyRepository;
-        borrowingRepository = repositoryManagment.borrowingRepository;
-        damagedBookRepository = repositoryManagment.damagedBookRepository;
-        fineRepository = repositoryManagment.fineRepository;
-        paymentRepository = repositoryManagment.paymentRepository;
-        generateUnique = new GenerateUnique();
+        this.memberRepository = memberRepository;
+        this.bookRepository = bookRepository;
+        this.bookCategoryRepository = bookCategoryRepository;
+        this.bookISBNRepository = bookISBNRepository;
+        this.bookCopyRepository = bookCopyRepository;
+        this.borrowingRepository = borrowingRepository;
+        this.damagedBookRepository = damagedBookRepository;
+        this.fineRepository = fineRepository;
+        this.paymentRepository = paymentRepository;
+
+        this.generateUnique = generateUnique;
+        this.inputsCheck = new InputsCheck();
     }
-    InputsCheck inputsCheck = new InputsCheck();
 }

@@ -1,5 +1,6 @@
 using System.Transactions;
 using LibraryManagement.DataAccessLibrary.DBContext;
+using LibraryManagement.Interfaces;
 using LibraryManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -9,8 +10,12 @@ using Npgsql;
 
 namespace LibraryManagement.Repositories;
 
-public class BorrowingRepository : AbstractRepository<int, Borrowing>
+public class BorrowingRepository : AbstractRepository<int, Borrowing>,IBorrowingRepository
 {
+    public BorrowingRepository(LibraryManagementContext libraryManagementContext) : base(libraryManagementContext)
+    {
+        
+    }
     public override Borrowing? Get(int BorrowingId)
     {
         var borrowing = libraryManagementContext.Borrowing.Include(m => m.Member).Include(b => b.BookCopy).Where(b => b.BorrowingId == BorrowingId).FirstOrDefault();
@@ -19,8 +24,7 @@ public class BorrowingRepository : AbstractRepository<int, Borrowing>
 
     public Borrowing? CreateBorrowing(int memberId, int bookId)
     {
-        using var context = new LibraryManagementContext();
-        using var transaction = context.Database.BeginTransaction();
+        using var transaction = libraryManagementContext.Database.BeginTransaction();
         try
         {
             libraryManagementContext.Database.ExecuteSqlInterpolated($"CALL check_borrowing_rules({memberId},{bookId})");
@@ -43,8 +47,7 @@ public class BorrowingRepository : AbstractRepository<int, Borrowing>
 
     public Borrowing? ReturnBorrowing(int borrowId, bool lost, int damagedLevel)
     {
-        using var context = new LibraryManagementContext();
-        using var transaction = context.Database.BeginTransaction();
+        using var transaction = libraryManagementContext.Database.BeginTransaction();
         try
         {
             if (damagedLevel == 0)

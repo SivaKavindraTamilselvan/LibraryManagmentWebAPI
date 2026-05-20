@@ -1,5 +1,6 @@
 
 using LibraryManagement.DataAccessLibrary.DBContext;
+using LibraryManagement.Interfaces;
 using LibraryManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -9,15 +10,19 @@ namespace LibraryManagement.Repositories;
 // memebr repo for getting the details based on the filters
 // usage of procedure and linq
 
-public class MemberRepository : AbstractRepository<int, Member>
+public class MemberRepository : AbstractRepository<int, Member>,IMemberRepository
 {
+    public MemberRepository(LibraryManagementContext libraryManagementContext) : base(libraryManagementContext)
+    {
+        
+    }
     public override Member? Get(int MemberId)
     {
         var member = libraryManagementContext.Member.Include(r => r.Role).Include(mt => mt.MemberType).Where(m => m.MemberId == MemberId).FirstOrDefault();
         return member;
     }
 
-    public List<Member> GetAllMembers()
+    public override List<Member> GetAll()
     {
         var member = libraryManagementContext.Member.Include(r => r.Role).Include(mt => mt.MemberType).ToList();
         return member;
@@ -41,7 +46,6 @@ public class MemberRepository : AbstractRepository<int, Member>
 
     public Member? DeactivateMember(int memberId)
     {
-        using var context = new LibraryManagementContext();
 
         try
         {

@@ -1,4 +1,5 @@
 using LibraryManagement.DataAccessLibrary.DBContext;
+using LibraryManagement.Interfaces;
 using LibraryManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -7,8 +8,12 @@ namespace LibraryManagement.Repositories;
  // book  repo for getting the details based on the filters
 // usage of linq
 
-public class BookRepository : AbstractRepository<int, Book>
+public class BookRepository : AbstractRepository<int, Book>,IBookRepository
 {
+    public BookRepository(LibraryManagementContext libraryManagementContext) : base (libraryManagementContext)
+    {
+        
+    }
     public override Book? Get(int key)
     {
         var book = libraryManagementContext.Book.Include(b => b.BookCategory).Include(bi => bi.BookISBNs).ThenInclude(bc => bc.BookCopies).ThenInclude(bs => bs.BookStatus).Where(b => b.BookId == key).FirstOrDefault();
@@ -25,7 +30,7 @@ public class BookRepository : AbstractRepository<int, Book>
         var books = libraryManagementContext.Book.Where(b => b.Author == author).Include(bc => bc.BookCategory).Include(bi => bi.BookISBNs).ThenInclude(bc => bc.BookCopies).ThenInclude(bs => bs.BookStatus).ToList();
         return books;
     }
-    public List<Book> GetAllBooks()
+    public override List<Book> GetAll()
     {
         var book = libraryManagementContext.Book.Include(b => b.BookCategory).Include(bi => bi.BookISBNs).ThenInclude(bc => bc.BookCopies).ThenInclude(bs => bs.BookStatus).ToList();
         return book;
@@ -39,8 +44,7 @@ public class BookRepository : AbstractRepository<int, Book>
 
     public int GetNumberOfBookByBookTitle(int id)
     {
-        using var context = new LibraryManagementContext();
-        using var transaction = context.Database.BeginTransaction();
+        using var transaction = libraryManagementContext.Database.BeginTransaction();
         try
         {
             int count = libraryManagementContext.Database.SqlQuery<int>($"SELECT get_number_of_books_by_book({id}) AS \"Value\"").FirstOrDefault();
@@ -61,8 +65,7 @@ public class BookRepository : AbstractRepository<int, Book>
     }
     public int GetNumberOfBookByISBN(string isbn)
     {
-        using var context = new LibraryManagementContext();
-        using var transaction = context.Database.BeginTransaction();
+        using var transaction = libraryManagementContext.Database.BeginTransaction();
         try
         {
             int count = libraryManagementContext.Database.SqlQuery<int>($"SELECT get_number_of_books_by_isbn({isbn}) AS \"Value\"").FirstOrDefault();
@@ -82,7 +85,7 @@ public class BookRepository : AbstractRepository<int, Book>
         return 0;
     }
 
-    public Book? GetAllBooksReport(int id)
+    public Book? GetBooksReport(int id)
     {
         var book = libraryManagementContext.Book.Include(b => b.BookCategory).Include(bi => bi.BookISBNs).ThenInclude(bc => bc.BookCopies).ThenInclude(bs => bs.BookStatus)
         .Include(bi => bi.BookISBNs).ThenInclude(bc => bc.BookCopies).ThenInclude(br => br.Borrowings).ThenInclude(br => br.BorrowingStatus)
