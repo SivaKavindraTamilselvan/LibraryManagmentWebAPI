@@ -1,4 +1,122 @@
-## screenshots will be added within tommrow morning
+## LIBRARY MANAGEMENT SYSTEM
+
+## STEPS
+
+Creation of the Multi Tier Library and App
+
+- Model Library
+- Data Access Library
+- Bisness Layer Library
+- Presentation Layer App
+
+
+## INSTALLATION
+
+- dotnet add package Microsoft.EntityFrameworkCore
+- dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+- dotnet add package Microsoft.EntityFrameworkCore.Tools
+- dotnet add package Microsoft.EntityFrameworkCore.Design
+
+Ensure All The Packages are of same version to void any of the conflicts or any kind of errors
+
+## CREATE THE ER DIAGRAM
+
+<img width="1198" height="2423" alt="image" src="https://github.com/user-attachments/assets/b8d636c9-829e-4ec4-a58b-e3e0680a6c64" />
+
+
+The Model Library is created with master and the normal tables
+
+Master Tables
+
+- BookStatus (available,unavailable,lost,damaged)
+- BorrowingStatus (borrowed,returned,overdue)
+- DamagedLevel (little,medium,hard) - include the default cost for each level of damage and the cost is fetched from here
+- FineCategory (overdue,lost,damaged)
+- MemberType (only for the user role)(basic,premium,student)
+- Payment Method (Differnet method of payment) (cod,upi,cards)
+- Role (So For 2 Roles are created) (Admin,User)
+
+Normal Tables
+
+- BookCategory
+- Book
+- BookISBN
+- BookCopy
+- Borrowing
+- Fine
+- DamagedBook
+- Payment
+- Member
+
+## Book
+
+For The Book Initially the book table contains the very common details such as booktitle,bookauthor,category.
+
+For Each editon published year the ISBN number will be changed so created the separate Table for the ISBN Book conating the book id to link between the book and book isbn
+
+Each Book with some ISBN Number can have different copies
+
+The physical details of the book that is included in the book status is found in book copy
+
+Each Book Copy Will have unique copy number
+
+The borrowing of book is mainly handled in book copy as it mention the physical data of the book.
+
+## Borrowing
+
+While Borrowing the needed requirments are checked and the only data are inserted into the table
+
+Done Using the procedure in the database
+
+If any error it raise exception and rollback
+
+## Returning
+
+The admin can check the book and update the book status
+
+as lost,damaged for internal fine calculation
+
+## Fine
+
+While Returning the Book The return date will be updated
+
+The Fine will be automatically genereted usinf functions and the date they submit and inserted into the fine table
+
+This return is handled in procedure while returning the book
+
+Only borrow id is needed for it
+
+The fine can be of three types
+
+- overdue
+- lost
+- damaged
+
+The usage of both lost and overdue is also implemented
+
+The fine amount are listed in the tables
+
+## DamagedBook
+
+It include the person who damaged the book,which book etc
+
+It helps to maintain the records of the person who are responsible for damaging the book often and can deactivate the member
+
+## Payment
+
+The fine amount can be paid by the user
+
+No need to pay fully
+
+As per their needed they can split and pay
+
+The Data will be updated
+
+Example - 500 rupees can be paid and 100,200,200 in any days and in any amount
+
+The reflection will happen in the backend
+
+
 
 <img width="3024" height="1964" alt="image" src="https://github.com/user-attachments/assets/657aba9d-aeb8-4c0d-8820-2e7d4810f079" />
 <img width="3024" height="1964" alt="image" src="https://github.com/user-attachments/assets/eaa4f1ee-76b5-47d8-8df7-48e53dd1be22" />
