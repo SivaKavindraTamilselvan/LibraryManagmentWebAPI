@@ -6,7 +6,7 @@ namespace LibraryManagement.BuisnessLayerLibrary.Services;
 // return logic is added
 // check the status of book 
 // based on status fines will alos be added automaticlly
-public class ReturnService
+public class ReturnService : IReturnService
 {
     protected readonly IBorrowingRepository borrowingRepository;
     public ReturnService(IBorrowingRepository borrowingRepository)

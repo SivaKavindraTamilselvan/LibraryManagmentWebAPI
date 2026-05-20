@@ -4,7 +4,7 @@ using LibraryManagement.Models;
 namespace LibraryManagement.BuisnessLayerLibrary.Services;
 
 // all get borrowing services
-public partial class BorrowingService
+public partial class BorrowingService : IBorrowingService
 {
     protected readonly IBorrowingRepository borrowingRepository;
     protected readonly IBookRepository bookRepository;

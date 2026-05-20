@@ -197,7 +197,7 @@ public class BorrowingController : ControllerBase
         }
     }
 
-    [HttpPut]
+    [HttpPost]
     public ActionResult<GetBorrowingDTO> AddBorrowing(CreateBorrowingDTO createBorrowingDTO)
     {
         try

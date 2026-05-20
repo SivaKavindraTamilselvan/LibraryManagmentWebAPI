@@ -4,7 +4,7 @@ using LibraryManagement.Models;
 
 namespace LibraryManagement.BuisnessLayerLibrary.Services;
 
-public class PaymentService
+public class PaymentService : IPaymentService
 {
     protected readonly IPaymentRepository paymentRepository;
     public PaymentService(IPaymentRepository paymentRepository)

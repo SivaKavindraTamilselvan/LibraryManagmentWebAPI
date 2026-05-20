@@ -1,10 +1,9 @@
 using LibraryManagement.Interfaces;
-using LibraryManagement.Models;
 using LibraryManagement.UniqueNumbers;
 
 namespace LibraryManagement.BuisnessLayerLibrary.Services;
 
-public partial class BookService
+public partial class BookService : IBookService
 {
     protected readonly IBookRepository bookRepository;
     protected readonly IBookISBNRepository bookISBNRepository;
