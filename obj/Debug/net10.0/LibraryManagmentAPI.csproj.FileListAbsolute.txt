@@ -41,3 +41,4 @@
 /Users/sivakavindra/InternProgram/LibraryManagmentWebApi/LibraryManagmentAPI/obj/Debug/net10.0/LibraryManagmentAPI.pdb
 /Users/sivakavindra/InternProgram/LibraryManagmentWebApi/LibraryManagmentAPI/obj/Debug/net10.0/LibraryManagmentAPI.genruntimeconfig.cache
 /Users/sivakavindra/InternProgram/LibraryManagmentWebApi/LibraryManagmentAPI/obj/Debug/net10.0/ref/LibraryManagmentAPI.dll
+/Users/sivakavindra/InternProgram/LibraryManagmentWebApi/LibraryManagmentAPI/obj/Debug/net10.0/LibraryManagmentAPI.sourcelink.json

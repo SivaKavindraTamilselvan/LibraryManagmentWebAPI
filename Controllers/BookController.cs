@@ -16,7 +16,7 @@ public class BookController : ControllerBase
     }
 
     [HttpGet("GetAllBooks")]
-    public ActionResult<List<GetBookDTO>> GetAllBooks(int id)
+    public ActionResult<List<GetBookDTO>> GetAllBooks()
     {
         try
         {
