@@ -6,10 +6,9 @@ namespace LibraryManagement.DataAccessLibrary.DBContext;
 
 public class LibraryManagementContext : DbContext
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public LibraryManagementContext(DbContextOptions options) : base(options)
     {
-        Env.Load();
-        optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("ConnectionString"));
+        
     }
     public DbSet<MemberType> MemberTypes { get; set; }
     public DbSet<Member> Member { get; set; }
