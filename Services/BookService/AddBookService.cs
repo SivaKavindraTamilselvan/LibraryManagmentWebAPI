@@ -97,7 +97,7 @@ public partial class BookService
         return new GetSimpleBookISBNDTO
         {
             ISBN = createdBookISBN?.ISBN ?? "",
-            BookISBNId = createdBookISBN.BookISBNId,
+            BookISBNId = createdBookISBN!.BookISBNId,
             PublishedYear = createdBookISBN.PublishedYear,
             Edition = createdBookISBN.Edition
         };
