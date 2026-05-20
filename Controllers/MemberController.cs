@@ -1,6 +1,6 @@
-using LibraryManagement.BuisnessLayerLibrary.Services;
 using LibraryManagement.DTOs;
 using LibraryManagement.Exceptions;
+using LibraryManagement.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.Controllers;
@@ -9,8 +9,8 @@ namespace LibraryManagement.Controllers;
 [ApiController]
 public class MemberController : ControllerBase
 {
-    private readonly MemberService memberService;
-    public MemberController(MemberService memberService)
+    private readonly IMemberService memberService;
+    public MemberController(IMemberService memberService)
     {
         this.memberService = memberService;
     }
@@ -39,6 +39,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.GetMemberByRole(id);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -83,11 +87,15 @@ public class MemberController : ControllerBase
         }
     }
     [HttpGet("GetAllMembers")]
-    public ActionResult<GetMemberDTO> GetAllMembers()
+    public ActionResult<List<GetMemberDTO>> GetAllMembers()
     {
         try
         {
             var result = memberService.GetAllMembers();
+            if (result.Count == 0)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -102,6 +110,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.AddMemberService(createMemberDTO);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Created");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -116,6 +128,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.UpdateTheMemberTypeByMemberId(id, MemberTypeId);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -129,6 +145,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.UpdateTheMemberTypeByEmail(email, MemberTypeId);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -142,6 +162,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.UpdateTheMemberTypeByPhoneNumber(PhoneNumber, MemberTypeId);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -155,6 +179,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.ActivateTheMemberByEmail(Email);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -168,6 +196,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.ActivateTheMemberByMemberId(memberid);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -182,6 +214,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.ActivateTheMemberByPhoneNumber(PhoneNumber);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -196,6 +232,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.DeactivateTheMemberByEmail(Email);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -209,6 +249,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.DeactivateTheMemberByMemberId(memberid);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)
@@ -223,6 +267,10 @@ public class MemberController : ControllerBase
         try
         {
             var result = memberService.DeactivateTheMemberByPhoneNumber(PhoneNumber);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
         catch (Exception ex)

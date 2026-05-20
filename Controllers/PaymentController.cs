@@ -10,8 +10,8 @@ namespace LibraryManagement.Controllers;
 [ApiController]
 public class PaymentController : ControllerBase
 {
-    protected readonly PaymentService paymentService;
-    public PaymentController(PaymentService paymentService)
+    protected readonly IPaymentService paymentService;
+    public PaymentController(IPaymentService paymentService)
     {
         this.paymentService = paymentService;
     }
@@ -34,14 +34,14 @@ public class PaymentController : ControllerBase
         }
     }
     [HttpGet("GetAllPayments")]
-    public ActionResult<GetPaymentDTO> GetAll()
+    public ActionResult<List<GetPaymentDTO>> GetAll()
     {
         try
         {
             var result = paymentService.GetAllPayments();
-            if(result == null)
+            if(result.Count == 0)
             {
-                throw new InvalidBorrowingException("Payment Not Done");
+                throw new InvalidBorrowingException("Payment Not Found");
             }
             return Ok(result);
         }

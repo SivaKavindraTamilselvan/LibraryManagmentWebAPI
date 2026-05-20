@@ -1,6 +1,7 @@
 using LibraryManagement.BuisnessLayerLibrary.Services;
 using LibraryManagement.DTOs;
 using LibraryManagement.Exceptions;
+using LibraryManagement.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.Controllers;
@@ -9,9 +10,9 @@ namespace LibraryManagement.Controllers;
 [ApiController]
 public class BorrowingController : ControllerBase
 {
-    protected readonly BorrowingService borrowingService;
-    protected readonly ReturnService returnService;
-    public BorrowingController(BorrowingService borrowingService, ReturnService returnService)
+    protected readonly IBorrowingService borrowingService;
+    protected readonly IReturnService returnService;
+    public BorrowingController(IBorrowingService borrowingService, IReturnService returnService)
     {
         this.borrowingService = borrowingService;
         this.returnService = returnService;
@@ -43,7 +44,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingByMemberId(id);
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -61,7 +62,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingByMemberEmail(email);
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -79,7 +80,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingByBorrowingStatus(id);
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -97,7 +98,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingByBorrowingDate(dateTime);
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -115,7 +116,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingByDueDate(dateTime);
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -133,7 +134,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingByReturnDate(dateTime);
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -151,7 +152,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingTmrw();
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -169,7 +170,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingByBookTitle(title);
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -187,7 +188,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.GetBorrowingByBookCopy(id);
             if (result.Count == 0)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -205,7 +206,7 @@ public class BorrowingController : ControllerBase
             var result = borrowingService.AddBorrowing(createBorrowingDTO);
             if (result == null)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Borrowing Not Found");
             }
             return Ok(result);
         }
@@ -223,7 +224,7 @@ public class BorrowingController : ControllerBase
             var result = returnService.AddReturn(createReturningDTO);
             if (result == null)
             {
-                throw new InvalidBorrowingException("Borrowing Not Done");
+                throw new InvalidBorrowingException("Return Not Done");
             }
             return Ok(result);
         }

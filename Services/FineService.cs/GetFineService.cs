@@ -4,7 +4,7 @@ using LibraryManagement.Models;
 
 namespace LibraryManagement.BuisnessLayerLibrary.Services;
 
-public class FineService
+public class FineService :IFineService 
 {
     protected readonly IFineRepository fineRepository;
     public FineService(IFineRepository fineRepository)

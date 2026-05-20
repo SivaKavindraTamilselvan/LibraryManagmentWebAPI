@@ -12,6 +12,7 @@ public interface IMemberService
     public GetMemberDTO? GetMemberById(int MemberId);
     public GetMemberDTO? UpdateTheMemberTypeByMemberId(int id, int MemberTypeId);
     public GetMemberDTO? UpdateTheMemberTypeByEmail(string email, int MemberTypeId);
+    public GetMemberDTO? UpdateTheMemberTypeByPhoneNumber(string PhoneNumber, int MemberTypeId);
     public GetMemberDTO? ActivateTheMemberByMemberId(int id);
     public GetMemberDTO? ActivateTheMemberByEmail(string email);
     public GetMemberDTO? ActivateTheMemberByPhoneNumber(string PhoneNumber);

@@ -32,12 +32,12 @@ builder.Services.AddScoped<GenerateUnique>();
 #endregion
 
 #region Services
-builder.Services.AddScoped<BorrowingService>();
-builder.Services.AddScoped<MemberService>();
-builder.Services.AddScoped<BookService>();
-builder.Services.AddScoped<ReturnService>();
-builder.Services.AddScoped<PaymentService>();
-builder.Services.AddScoped<FineService>();
+builder.Services.AddScoped<IBorrowingService,BorrowingService>();
+builder.Services.AddScoped<IMemberService,MemberService>();
+builder.Services.AddScoped<IBookService,BookService>();
+builder.Services.AddScoped<IReturnService,ReturnService>();
+builder.Services.AddScoped<IPaymentService,PaymentService>();
+builder.Services.AddScoped<IFineService,FineService>();
 
 #endregion
 

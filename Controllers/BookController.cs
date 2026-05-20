@@ -1,6 +1,7 @@
 using LibraryManagement.BuisnessLayerLibrary.Services;
 using LibraryManagement.DTOs;
 using LibraryManagement.Exceptions;
+using LibraryManagement.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.Controllers;
@@ -9,8 +10,8 @@ namespace LibraryManagement.Controllers;
 [ApiController]
 public class BookController : ControllerBase
 {
-    protected readonly BookService bookService;
-    public BookController(BookService bookService)
+    protected readonly IBookService bookService;
+    public BookController(IBookService bookService)
     {
         this.bookService = bookService;
     }
@@ -21,7 +22,7 @@ public class BookController : ControllerBase
         try
         {
             var result = bookService.GetAllBooks();
-            if (result == null)
+            if (result.Count == 0)
             {
                 throw new InvalidBookException("Book Not Found");
             }
@@ -55,7 +56,7 @@ public class BookController : ControllerBase
         try
         {
             var result = bookService.GetBookByBookTitle(Title);
-            if (result == null)
+            if (result.Count == 0)
             {
                 throw new InvalidBookException("Book Not Found");
             }
@@ -72,7 +73,7 @@ public class BookController : ControllerBase
         try
         {
             var result = bookService.GetBookByBookAuthor(author);
-            if (result == null)
+            if (result.Count == 0)
             {
                 throw new InvalidBookException("Book Not Found");
             }
@@ -89,7 +90,7 @@ public class BookController : ControllerBase
         try
         {
             var result = bookService.GetBookByISBNNumber(number);
-            if (result == null)
+            if (result.Count == 0)
             {
                 throw new InvalidBookException("Book Not Found");
             }
@@ -123,7 +124,7 @@ public class BookController : ControllerBase
         try
         {
             var result = bookService.GetBookByStatus(id);
-            if (result == null)
+            if (result.Count == 0)
             {
                 throw new InvalidBookException("Book Not Found");
             }
@@ -135,14 +136,14 @@ public class BookController : ControllerBase
         }
     }
     [HttpPut("Book")]
-    public ActionResult<List<GetBookCopyDTO>> CreateBook(CreateBookDTO createBookDTO)
+    public ActionResult<GetBookCopyDTO> CreateBook(CreateBookDTO createBookDTO)
     {
         try
         {
             var result = bookService.AddBook(createBookDTO);
             if (result == null)
             {
-                throw new InvalidBookException("Book Not Found");
+                throw new InvalidBookException("Book Not Created");
             }
             return Ok(result);
         }
@@ -153,14 +154,14 @@ public class BookController : ControllerBase
     }
 
     [HttpPut("BookISBN")]
-    public ActionResult<List<GetBookCopyDTO>> CreateBookISBN(CreateBookISBNDTO createBookISBNDTO)
+    public ActionResult<GetBookCopyDTO> CreateBookISBN(CreateBookISBNDTO createBookISBNDTO)
     {
         try
         {
             var result = bookService.AddBookISBN(createBookISBNDTO);
             if (result == null)
             {
-                throw new InvalidBookException("Book Not Found");
+                throw new InvalidBookException("Book Not Created");
             }
             return Ok(result);
         }
@@ -171,14 +172,14 @@ public class BookController : ControllerBase
     }
 
     [HttpPut("BookCopy")]
-    public ActionResult<List<GetBookCopyDTO>> CreateBookCopy(CreateBookCopyDTO createBookCopyDTO)
+    public ActionResult<GetBookCopyDTO> CreateBookCopy(CreateBookCopyDTO createBookCopyDTO)
     {
         try
         {
             var result = bookService.AddBookCopy(createBookCopyDTO);
             if (result == null)
             {
-                throw new InvalidBookException("Book Not Found");
+                throw new InvalidBookException("Book Not Created");
             }
             return Ok(result);
         }

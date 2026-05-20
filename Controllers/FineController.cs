@@ -11,21 +11,21 @@ namespace LibraryManagement.Controllers;
 [ApiController]
 public class FineController : ControllerBase
 {
-    protected readonly FineService fineService;
-    public FineController(FineService fineService)
+    protected readonly IFineService fineService;
+    public FineController(IFineService fineService)
     {
         this.fineService = fineService;
     }
 
     [HttpGet("GetAll")]
-    public ActionResult<GetPaymentDTO> GetAll()
+    public ActionResult<List<GetPaymentDTO>> GetAll()
     {
         try
         {
             var result = fineService.GetAllFines();
-            if(result == null)
+            if(result.Count == 0)
             {
-                throw new InvalidBorrowingException("Payment Not Done");
+                throw new InvalidBorrowingException("Fine Not Found");
             }
             return Ok(result);
         }
