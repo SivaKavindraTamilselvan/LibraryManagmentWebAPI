@@ -1,7 +1,6 @@
 using LibraryManagement.BuisnessLayerLibrary.Services;
 using LibraryManagement.DTOs;
 using LibraryManagement.Exceptions;
-using LibraryManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.Controllers;
@@ -10,10 +9,10 @@ namespace LibraryManagement.Controllers;
 [ApiController]
 public class MemberController : ControllerBase
 {
-    private readonly AdminService adminService;
-    public MemberController(AdminService adminService)
+    private readonly MemberService memberService;
+    public MemberController(MemberService memberService)
     {
-        this.adminService = adminService;
+        this.memberService = memberService;
     }
 
     [HttpGet]
@@ -21,7 +20,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.GetMemberById(id);
+            var result = memberService.GetMemberById(id);
             if (result == null)
             {
                 throw new InvalidMemberException("User Not Found");
@@ -39,7 +38,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.GetMemberByRole(id);
+            var result = memberService.GetMemberByRole(id);
             return Ok(result);
         }
         catch (Exception ex)
@@ -53,7 +52,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.GetMemberByEmail(email);
+            var result = memberService.GetMemberByEmail(email);
             if (result == null)
             {
                 throw new InvalidMemberException("User Not Found");
@@ -71,7 +70,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.GetMemberByPhoneNumber(PhoneNumber);
+            var result = memberService.GetMemberByPhoneNumber(PhoneNumber);
             if (result == null)
             {
                 throw new InvalidMemberException("User Not Found");
@@ -88,7 +87,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.GetAllMembers();
+            var result = memberService.GetAllMembers();
             return Ok(result);
         }
         catch (Exception ex)
@@ -102,7 +101,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.AddMemberService(createMemberDTO);
+            var result = memberService.AddMemberService(createMemberDTO);
             return Ok(result);
         }
         catch (Exception ex)
@@ -116,7 +115,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.UpdateTheMemberTypeByMemberId(id, MemberTypeId);
+            var result = memberService.UpdateTheMemberTypeByMemberId(id, MemberTypeId);
             return Ok(result);
         }
         catch (Exception ex)
@@ -129,7 +128,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.UpdateTheMemberTypeByEmail(email, MemberTypeId);
+            var result = memberService.UpdateTheMemberTypeByEmail(email, MemberTypeId);
             return Ok(result);
         }
         catch (Exception ex)
@@ -142,7 +141,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.UpdateTheMemberTypeByPhoneNumber(PhoneNumber, MemberTypeId);
+            var result = memberService.UpdateTheMemberTypeByPhoneNumber(PhoneNumber, MemberTypeId);
             return Ok(result);
         }
         catch (Exception ex)
@@ -155,7 +154,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.ActivateTheMemberByEmail(Email);
+            var result = memberService.ActivateTheMemberByEmail(Email);
             return Ok(result);
         }
         catch (Exception ex)
@@ -168,7 +167,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.ActivateTheMemberByMemberId(memberid);
+            var result = memberService.ActivateTheMemberByMemberId(memberid);
             return Ok(result);
         }
         catch (Exception ex)
@@ -182,7 +181,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.ActivateTheMemberByPhoneNumber(PhoneNumber);
+            var result = memberService.ActivateTheMemberByPhoneNumber(PhoneNumber);
             return Ok(result);
         }
         catch (Exception ex)
@@ -196,7 +195,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.DeactivateTheMemberByEmail(Email);
+            var result = memberService.DeactivateTheMemberByEmail(Email);
             return Ok(result);
         }
         catch (Exception ex)
@@ -209,7 +208,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.DeactivateTheMemberByMemberId(memberid);
+            var result = memberService.DeactivateTheMemberByMemberId(memberid);
             return Ok(result);
         }
         catch (Exception ex)
@@ -223,7 +222,7 @@ public class MemberController : ControllerBase
     {
         try
         {
-            var result = adminService.DeactivateTheMemberByPhoneNumber(PhoneNumber);
+            var result = memberService.DeactivateTheMemberByPhoneNumber(PhoneNumber);
             return Ok(result);
         }
         catch (Exception ex)

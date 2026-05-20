@@ -1,5 +1,4 @@
 using LibraryManagement.BuisnessLayerLibrary.Services;
-using LibraryManagement.BuisnessLayerLibrary.Validation;
 using LibraryManagement.DataAccessLibrary.DBContext;
 using LibraryManagement.Interfaces;
 using LibraryManagement.Repositories;
@@ -9,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-
 
 #region Contexts
 builder.Services.AddDbContext<LibraryManagementContext>(options =>
@@ -35,9 +32,8 @@ builder.Services.AddScoped<GenerateUnique>();
 #endregion
 
 #region Services
+builder.Services.AddScoped<MemberService>();
 builder.Services.AddScoped<AdminService>();
-builder.Services.AddScoped<EmailValidation>();
-
 #endregion
 
 builder.Services.AddControllers();
