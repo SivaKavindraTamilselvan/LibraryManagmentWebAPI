@@ -1,9 +1,11 @@
 using LibraryManagement.BuisnessLayerLibrary.Services;
 using LibraryManagement.DTOs;
+using LibraryManagement.Exceptions;
 using LibraryManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class MemberController : ControllerBase
@@ -20,11 +22,213 @@ public class MemberController : ControllerBase
         try
         {
             var result = adminService.GetMemberById(id);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
             return Ok(result);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
-        } 
+        }
+    }
+
+    [HttpGet("GetOfMemberByRole")]
+    public ActionResult<GetMemberDTO> GetListOfMemberByRole(int id)
+    {
+        try
+        {
+            var result = adminService.GetMemberByRole(id);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("GetMemberByEmail")]
+    public ActionResult<GetMemberDTO> GetMemberByEmail(string email)
+    {
+        try
+        {
+            var result = adminService.GetMemberByEmail(email);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("GetMemberByPhoneNumber")]
+    public ActionResult<GetMemberDTO> GetMemberByPhoneNumber(string PhoneNumber)
+    {
+        try
+        {
+            var result = adminService.GetMemberByPhoneNumber(PhoneNumber);
+            if (result == null)
+            {
+                throw new InvalidMemberException("User Not Found");
+            }
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet("GetAllMembers")]
+    public ActionResult<GetMemberDTO> GetAllMembers()
+    {
+        try
+        {
+            var result = adminService.GetAllMembers();
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public ActionResult<GetMemberDTO> CreateMember(CreateMemberDTO createMemberDTO)
+    {
+        try
+        {
+            var result = adminService.AddMemberService(createMemberDTO);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("Update The Member Type By Member Id")]
+    public ActionResult<GetMemberDTO> UpdateTheMemberTypeByMemberId(int id, int MemberTypeId)
+    {
+        try
+        {
+            var result = adminService.UpdateTheMemberTypeByMemberId(id, MemberTypeId);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("Update The Member Type By Member Email")]
+    public ActionResult<GetMemberDTO> UpdateTheMemberTypeByMemberEmail(string email, int MemberTypeId)
+    {
+        try
+        {
+            var result = adminService.UpdateTheMemberTypeByEmail(email, MemberTypeId);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("Update The Member Type By Member Phone Number")]
+    public ActionResult<GetMemberDTO> UpdateTheMemberTypeByMemberPhoneNumber(string PhoneNumber, int MemberTypeId)
+    {
+        try
+        {
+            var result = adminService.UpdateTheMemberTypeByPhoneNumber(PhoneNumber, MemberTypeId);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("Activate The Member By Email")]
+    public ActionResult<GetMemberDTO> ActivateMemberEmail(string Email)
+    {
+        try
+        {
+            var result = adminService.ActivateTheMemberByEmail(Email);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("Activate The Member By Member Id")]
+    public ActionResult<GetMemberDTO> ActivateMemberMemberId(int memberid)
+    {
+        try
+        {
+            var result = adminService.ActivateTheMemberByMemberId(memberid);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("Activate The Member By Phone Number")]
+    public ActionResult<GetMemberDTO> ActivateMemberPhoneNumber(string PhoneNumber)
+    {
+        try
+        {
+            var result = adminService.ActivateTheMemberByPhoneNumber(PhoneNumber);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("DeActivate The Member By Email")]
+    public ActionResult<GetMemberDTO> DeactivateMemberEmail(string Email)
+    {
+        try
+        {
+            var result = adminService.DeactivateTheMemberByEmail(Email);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("DeActivate The Member By Member Id")]
+    public ActionResult<GetMemberDTO> DeactivateMemberMemberId(int memberid)
+    {
+        try
+        {
+            var result = adminService.DeactivateTheMemberByMemberId(memberid);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut("DeActivate The Member By Phone Number")]
+    public ActionResult<GetMemberDTO> DeactivateMemberPhoneNumber(string PhoneNumber)
+    {
+        try
+        {
+            var result = adminService.DeactivateTheMemberByPhoneNumber(PhoneNumber);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

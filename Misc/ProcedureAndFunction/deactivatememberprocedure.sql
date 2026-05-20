@@ -26,7 +26,7 @@ IF pending_borrowing_count > 0 THEN
 RAISE EXCEPTION 'There Is Book That Need To Be Returned';
 END IF;
 
-UPDATE "Member" SET "isActive" = false
+UPDATE "Member" SET "isActive" = false,"updatedAt" = NOW()
 WHERE "MemberId" = member_id;
 
 END;

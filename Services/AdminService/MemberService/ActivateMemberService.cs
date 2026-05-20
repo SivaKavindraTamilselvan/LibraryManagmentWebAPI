@@ -1,6 +1,7 @@
 using LibraryManagement.Interfaces;
 using LibraryManagement.Exceptions;
 using LibraryManagement.Models;
+using LibraryManagement.DTOs;
 
 namespace LibraryManagement.BuisnessLayerLibrary.Services;
 
@@ -8,7 +9,7 @@ namespace LibraryManagement.BuisnessLayerLibrary.Services;
 // a member already then exception is raised
 public partial class AdminService 
 {
-    public Member? ActivateTheMemberByMemberId(int id)
+    public GetMemberDTO? ActivateTheMemberByMemberId(int id)
     {
         var member = memberRepository.Get(id);
         if(member == null)
@@ -20,10 +21,32 @@ public partial class AdminService
             throw new InvalidMemberException("Already The Member Is activated");
         }
         member.isActive = true;
-        var updatedMember = memberRepository.Update(id,member);
-        return updatedMember;
+        member.updatedAt = DateTime.Now;
+        var updatedMember = memberRepository.Update(id, member);
+        if (updatedMember == null)
+        {
+            return null;
+        }
+        updatedMember = memberRepository.Get(updatedMember.MemberId);
+        if (updatedMember == null)
+        {
+            return null;
+        }
+        return new GetMemberDTO
+        {
+            MemberId = updatedMember.MemberId,
+            FirstName = updatedMember.FirstName,
+            LastName = updatedMember.LastName,
+            Email = updatedMember.Email,
+            PhoneNumber = updatedMember.PhoneNumber,
+            isActive = updatedMember.isActive,
+            Role = updatedMember.Role?.RoleName ?? string.Empty,
+            MemberType = updatedMember.MemberType?.MemberTypeName ?? string.Empty,
+            createdAt = updatedMember.createdAt,
+            updatedAt = updatedMember.updatedAt
+        };
     }
-    public Member? ActivateTheMemberByEmail(string email)
+    public GetMemberDTO? ActivateTheMemberByEmail(string email)
     {
         var member = memberRepository.GetMemberByEmail(email);
         if(member == null)
@@ -35,10 +58,32 @@ public partial class AdminService
             throw new InvalidMemberException("Already The Member Is activated");
         }
         member.isActive = true;
-        var updatedMember = memberRepository.Update(member.MemberId,member);
-        return updatedMember;
+        member.updatedAt = DateTime.Now;
+        var updatedMember = memberRepository.Update(member.MemberId, member);
+        if (updatedMember == null)
+        {
+            return null;
+        }
+        updatedMember = memberRepository.Get(updatedMember.MemberId);
+        if (updatedMember == null)
+        {
+            return null;
+        }
+        return new GetMemberDTO
+        {
+            MemberId = updatedMember.MemberId,
+            FirstName = updatedMember.FirstName,
+            LastName = updatedMember.LastName,
+            Email = updatedMember.Email,
+            PhoneNumber = updatedMember.PhoneNumber,
+            isActive = updatedMember.isActive,
+            Role = updatedMember.Role?.RoleName ?? string.Empty,
+            MemberType = updatedMember.MemberType?.MemberTypeName ?? string.Empty,
+            createdAt = updatedMember.createdAt,
+            updatedAt = updatedMember.updatedAt
+        };
     }
-    public Member? ActivateTheMemberByPhoneNumber(string PhoneNumber)
+    public GetMemberDTO? ActivateTheMemberByPhoneNumber(string PhoneNumber)
     {
         var member = memberRepository.GetMemberByPhoneNumber(PhoneNumber);
         if(member == null)
@@ -50,7 +95,29 @@ public partial class AdminService
             throw new InvalidMemberException("Already The Member Is activated");
         }
         member.isActive = true;
-        var updatedMember = memberRepository.Update(member.MemberId,member);
-        return updatedMember;
+        member.updatedAt = DateTime.Now;
+        var updatedMember = memberRepository.Update(member.MemberId, member);
+        if (updatedMember == null)
+        {
+            return null;
+        }
+        updatedMember = memberRepository.Get(updatedMember.MemberId);
+        if (updatedMember == null)
+        {
+            return null;
+        }
+        return new GetMemberDTO
+        {
+            MemberId = updatedMember.MemberId,
+            FirstName = updatedMember.FirstName,
+            LastName = updatedMember.LastName,
+            Email = updatedMember.Email,
+            PhoneNumber = updatedMember.PhoneNumber,
+            isActive = updatedMember.isActive,
+            Role = updatedMember.Role?.RoleName ?? string.Empty,
+            MemberType = updatedMember.MemberType?.MemberTypeName ?? string.Empty,
+            createdAt = updatedMember.createdAt,
+            updatedAt = updatedMember.updatedAt
+        };
     }
 }

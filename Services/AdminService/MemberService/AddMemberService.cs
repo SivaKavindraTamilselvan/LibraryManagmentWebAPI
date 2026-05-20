@@ -3,76 +3,74 @@ using LibraryManagement.UniqueNumbers;
 using LibraryManagement.Exceptions;
 using LibraryManagement.Models;
 using LibraryManagement.Repositories;
+using LibraryManagement.DTOs;
+using LibraryManagement.BuisnessLayerLibrary.Validation;
 
 namespace LibraryManagement.BuisnessLayerLibrary.Services;
 
 // add member service
 public partial class AdminService
 {
-    public Member? AddMemberService()
+    public GetMemberDTO? AddMemberService(CreateMemberDTO createMemberDTO)
     {
         Member member = new Member();
-        Console.WriteLine("Enter Your First Name");
-        string FirstName = inputsCheck.NameInput();
-        
-        Console.WriteLine("\nEnter Your Last Name");
-        string LastName = inputsCheck.NameInput();
+        string FirstName = createMemberDTO.FirstName;
+        string LastName = createMemberDTO.LastName;
+        string Email = createMemberDTO.Email;
+        string PhoneNumber = createMemberDTO.PhoneNumber;
+        string Password = createMemberDTO.Password;
+        int RoleId = createMemberDTO.RoleId;
+        int? MemberId = createMemberDTO.MemberTypeId;
 
-        Console.WriteLine("\nEnter Your Email");
-        string Email = inputsCheck.EmailInputs();
+        NameValidation.isValidName(FirstName);
+        NameValidation.isValidName(LastName);
+        EmailValidation.isValidEmail(Email);
+        PhoneNumberValidation.isValidPhoneNumber(PhoneNumber);
         if (GetMemberByEmail(Email) != null)
         {
             throw new InvalidMemberException("Already the Email Is Registered. Try With Another Email");
         }
-
-        Console.WriteLine("\nEnter Your PhoneNumber");
-        string PhoneNumber = inputsCheck.PhoneNumberInputs();
         if (GetMemberByPhoneNumber(PhoneNumber) != null)
         {
             throw new InvalidMemberException("Already the PhoneNumber Is Registered. Try With Another PhoneNumber");
         }
 
-        Console.WriteLine("\nEnter The RoleType\n");
-        Console.WriteLine("-- Enter 1 To Add Admin --");
-        Console.WriteLine("-- Enter 2 To Add Member --\n");
-        int typechoice;
-        while (!int.TryParse(Console.ReadLine(), out typechoice) || typechoice < 0 || typechoice > 2)
+        if (RoleId == 1 && MemberId != null)
         {
-            Console.WriteLine("Enter Vaild Role Type Input");
+            throw new InvalidMemberException("Admin Cannot Have Member Type");
         }
-
-        if (typechoice == 2)
-        {
-            int memberchoice;
-            Console.WriteLine("\nEnter The MemberType\n");
-            Console.WriteLine("-- Enter 1 To Basic --");
-            Console.WriteLine("-- Enter 2 To Student --");
-            Console.WriteLine("-- Enter 3 To Premium --");
-            while (!int.TryParse(Console.ReadLine(), out memberchoice) || memberchoice < 0 || memberchoice > 3)
-            {
-                Console.WriteLine("Enter Vaild Member Type Input");
-            }
-            member.MemberTypeId = memberchoice;
-        }
-        else
-        {
-            member.MemberTypeId = null;
-        }
-
         //member detailed added to the object
         member.FirstName = FirstName;
         member.LastName = LastName;
         member.Email = Email;
         member.PhoneNumber = PhoneNumber;
-        member.Password = FirstName + LastName + "123"; // initially added by the admin later can be changed by the user
+        member.Password = Password;
         member.isActive = true;
-        member.RoleId = typechoice;
+        member.RoleId = RoleId;
+        member.MemberTypeId = MemberId;
         member.createdAt = DateTime.Now;
-        var createdMember = memberRepository.Create(member);
-        if (createdMember == null)
+        var created = memberRepository.Create(member);
+        if (created == null)
         {
-            return null;
+            throw new InvalidMemberException("Member Not Created");
         }
-        return createdMember;
+        var fullMember = memberRepository.Get(created.MemberId);
+        if (fullMember == null)
+        {
+            throw new InvalidMemberException("Member Not Found");
+        }
+        return new GetMemberDTO
+        {
+            MemberId = fullMember.MemberId,
+            FirstName = fullMember.FirstName,
+            LastName = fullMember.LastName,
+            Email = fullMember.Email,
+            PhoneNumber = fullMember.PhoneNumber,
+            isActive = fullMember.isActive,
+            Role = fullMember.Role?.RoleName ?? string.Empty,
+            MemberType = fullMember.MemberType?.MemberTypeName ?? string.Empty,
+            createdAt = fullMember.createdAt,
+            updatedAt = fullMember.updatedAt
+        };
     }
 }

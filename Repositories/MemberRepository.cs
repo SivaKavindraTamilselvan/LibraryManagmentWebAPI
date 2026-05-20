@@ -57,7 +57,7 @@ public class MemberRepository : AbstractRepository<int, Member>,IMemberRepositor
         }
         catch (PostgresException ex)
         {
-            Console.WriteLine(ex.MessageText);
+            throw new DatabaseOperationException(ex.MessageText);
         }
         catch (Exception ex)
         {

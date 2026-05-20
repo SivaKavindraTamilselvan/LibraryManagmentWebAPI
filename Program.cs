@@ -1,4 +1,5 @@
 using LibraryManagement.BuisnessLayerLibrary.Services;
+using LibraryManagement.BuisnessLayerLibrary.Validation;
 using LibraryManagement.DataAccessLibrary.DBContext;
 using LibraryManagement.Interfaces;
 using LibraryManagement.Repositories;
@@ -35,6 +36,8 @@ builder.Services.AddScoped<GenerateUnique>();
 
 #region Services
 builder.Services.AddScoped<AdminService>();
+builder.Services.AddScoped<EmailValidation>();
+
 #endregion
 
 builder.Services.AddControllers();

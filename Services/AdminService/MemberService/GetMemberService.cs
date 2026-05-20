@@ -8,35 +8,98 @@ namespace LibraryManagement.BuisnessLayerLibrary.Services;
 // get member service
 public partial class AdminService
 {
-    public List<Member> GetAllMembers()
+    public List<GetMemberDTO> GetAllMembers()
     {
         var memberList = memberRepository.GetAll();
-        return memberList;
+        if (memberList.Count == 0)
+        {
+            throw new InvalidMemberException("Member List Is Empty");
+        }
+        return memberList.OrderBy(m=>m.MemberId).Select(member => new GetMemberDTO
+        {
+            MemberId = member.MemberId,
+            FirstName = member.FirstName,
+            LastName = member.LastName,
+            Email = member.Email,
+            PhoneNumber = member.PhoneNumber,
+            isActive = member.isActive,
+            Role = member.Role?.RoleName ?? string.Empty,
+            MemberType = member.MemberType?.MemberTypeName ?? string.Empty,
+            createdAt = member.createdAt,
+            updatedAt = member.updatedAt
+        }).ToList();
     }
-    public Member? GetMemberByEmail(string email)
+    public GetMemberDTO? GetMemberByEmail(string email)
     {
         var member = memberRepository.GetMemberByEmail(email);
-        return member;
+        if (member == null)
+        {
+            return null;
+        }
+        return new GetMemberDTO
+        {
+            MemberId = member.MemberId,
+            FirstName = member.FirstName,
+            LastName = member.LastName,
+            Email = member.Email,
+            PhoneNumber = member.PhoneNumber,
+            isActive = member.isActive,
+            Role = member.Role?.RoleName ?? string.Empty,
+            MemberType = member.MemberType?.MemberTypeName ?? string.Empty,
+            createdAt = member.createdAt,
+            updatedAt = member.updatedAt
+        };
     }
 
-    public Member? GetMemberByPhoneNumber(string email)
+    public GetMemberDTO? GetMemberByPhoneNumber(string email)
     {
         var member = memberRepository.GetMemberByPhoneNumber(email);
-        return member;
+        if (member == null)
+        {
+            return null;
+        }
+        return new GetMemberDTO
+        {
+            MemberId = member.MemberId,
+            FirstName = member.FirstName,
+            LastName = member.LastName,
+            Email = member.Email,
+            PhoneNumber = member.PhoneNumber,
+            isActive = member.isActive,
+            Role = member.Role?.RoleName ?? string.Empty,
+            MemberType = member.MemberType?.MemberTypeName ?? string.Empty,
+            createdAt = member.createdAt,
+            updatedAt = member.updatedAt
+        };
     }
-    public List<Member> GetMemberByRole(int RoleId)
+    public List<GetMemberDTO> GetMemberByRole(int RoleId)
     {
-        var member = memberRepository.GetMemberByRole(RoleId);
-
-        return member;
+        var members = memberRepository.GetMemberByRole(RoleId);
+        if (members.Count == 0)
+        {
+            throw new InvalidMemberException("Member List Is Empty");
+        }
+        return members.OrderBy(m=>m.MemberId).Select(member => new GetMemberDTO
+        {
+            MemberId = member.MemberId,
+            FirstName = member.FirstName,
+            LastName = member.LastName,
+            Email = member.Email,
+            PhoneNumber = member.PhoneNumber,
+            isActive = member.isActive,
+            Role = member.Role?.RoleName ?? string.Empty,
+            MemberType = member.MemberType?.MemberTypeName ?? string.Empty,
+            createdAt = member.createdAt,
+            updatedAt = member.updatedAt
+        }).ToList();
     }
 
     public GetMemberDTO? GetMemberById(int MemberId)
     {
         var member = memberRepository.Get(MemberId);
-        if(member == null)
+        if (member == null)
         {
-            throw new InvalidMemberException("User Not Found");
+            return null;
         }
         return new GetMemberDTO
         {
