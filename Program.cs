@@ -33,6 +33,7 @@ builder.Services.AddScoped<GenerateUnique>();
 
 #region Services
 builder.Services.AddScoped<MemberService>();
+builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<AdminService>();
 #endregion
 

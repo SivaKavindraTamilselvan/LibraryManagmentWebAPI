@@ -7,6 +7,7 @@ namespace LibraryManagement.BuisnessLayerLibrary.Services;
 public partial class AdminService
 {
     // add borrowing service
+    /*
     public Borrowing? AddBorrowing()
     {
         Console.WriteLine("\n\n================ Enter The Details To Borrow The Book =================\n\n");
@@ -14,6 +15,7 @@ public partial class AdminService
         int memberId = inputsCheck.IdInputs();
         Console.WriteLine("Enter The Book Title To Borrow");
         string title = Console.ReadLine() ?? "";
+        
         var book = GetBookIdByTitle(title);
         // book by the title
         if(book == null)
@@ -27,4 +29,5 @@ public partial class AdminService
         }
         return borrowing;
     }
+    */
 }
