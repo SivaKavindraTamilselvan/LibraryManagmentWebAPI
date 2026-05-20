@@ -15,5 +15,4 @@ public interface IBorrowingService
     public List<GetBorrowingDTO> GetBorrowingByBookTitle(string title);
     public List<GetBorrowingDTO> GetBorrowingByBookCopy(int id);
     public GetBorrowingDTO? AddBorrowing(CreateBorrowingDTO createBorrowingDTO);
-    public GetBorrowingDTO? AddReturn(CreateReturningDTO createReturningDTO);
 }
