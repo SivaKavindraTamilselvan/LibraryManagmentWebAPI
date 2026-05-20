@@ -33,4 +33,21 @@ public class PaymentController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpGet("GetAllPayments")]
+    public ActionResult<GetPaymentDTO> GetAll()
+    {
+        try
+        {
+            var result = paymentService.GetAllPayments();
+            if(result == null)
+            {
+                throw new InvalidBorrowingException("Payment Not Done");
+            }
+            return Ok(result);
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

@@ -37,6 +37,8 @@ builder.Services.AddScoped<MemberService>();
 builder.Services.AddScoped<BookService>();
 builder.Services.AddScoped<ReturnService>();
 builder.Services.AddScoped<PaymentService>();
+builder.Services.AddScoped<FineService>();
+
 #endregion
 
 builder.Services.AddControllers();

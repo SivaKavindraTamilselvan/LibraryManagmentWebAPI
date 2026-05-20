@@ -18,7 +18,13 @@ public class PaymentRepository : AbstractRepository<int, Payment>,IPaymentReposi
     public override Payment? Get(int key)
     {
         var payment = libraryManagementContext.Payment.Include(mp => mp.ModeOfPayment).Where(b => b.PaymentId == key).FirstOrDefault();
-        return null;
+        return payment;
+    }
+
+    public override List<Payment> GetAll()
+    {
+        var payment = libraryManagementContext.Payment.Include(mp => mp.ModeOfPayment).ToList();
+        return payment;
     }
 
     public override Payment? Create(Payment payment)

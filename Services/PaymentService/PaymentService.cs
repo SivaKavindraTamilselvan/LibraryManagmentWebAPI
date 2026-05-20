@@ -23,7 +23,7 @@ public class PaymentService : IPaymentService
         payment.AmountPaid = amountPaid;
         payment.ModeOfPaymentId = paymentId;
         var createdPayment = paymentRepository.Create(payment);
-        createdPayment = paymentRepository.Get(payment.PaymentId);
+        createdPayment = paymentRepository.Get(createdPayment.PaymentId);
         if(createdPayment == null)
         {
             return null;
@@ -40,4 +40,19 @@ public class PaymentService : IPaymentService
 
         };
     } 
+
+    public List<GetPaymentDTO> GetAllPayments()
+    {
+        var payments = paymentRepository.GetAll();
+        return payments.OrderBy(p=>p.PaymentId).Select(payment => new GetPaymentDTO
+        {
+            PaymentId = payment.PaymentId,
+            FineId = payment.FineId,
+            FineCategory = payment.Fine?.FineCategory?.FineCategoryName?? "",
+            AmountPaid = payment.AmountPaid,
+            ModeOfPayment = payment.ModeOfPayment?.ModeOfPaymentName ?? "",
+            createdAt = payment.createdAt,
+            PaymentDate = payment.PaymentDate,
+        }).ToList();
+    }
 }
